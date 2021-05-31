@@ -23,7 +23,7 @@
 
 /* clang-format off */
 
-#define VIC7100_HART_COUNT					2
+#define VIC7100_HART_COUNT					3
 
 #define VIC7100_SYS_CLK						1000000000
 
@@ -210,6 +210,11 @@ static int vic7100_vendor_ext_provider(long extid, long funcid,
 	return ret;
 }
 
+static u32 vic7100_hart_index2id[VIC7100_HART_COUNT - 1] = {
+        [0] = 1,
+        [1] = 2,
+};
+
 const struct sbi_platform_operations platform_ops = {
 	.final_init		= vic7100_final_init,
 	.console_putc		= uart8250_putc,
@@ -234,7 +239,8 @@ const struct sbi_platform platform = {
 	.platform_version	= SBI_PLATFORM_VERSION(0x0, 0x01),
 	.name			= "StarFive VIC7100",
 	.features		= SBI_PLATFORM_DEFAULT_FEATURES,
-	.hart_count		= (VIC7100_HART_COUNT),
+	.hart_count		= (VIC7100_HART_COUNT - 1),
+	.hart_index2id          = vic7100_hart_index2id,
 	.hart_stack_size	= SBI_PLATFORM_DEFAULT_HART_STACK_SIZE,
 	.platform_ops_addr	= (unsigned long)&platform_ops
 };
