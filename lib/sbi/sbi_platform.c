@@ -80,8 +80,13 @@ u32 sbi_platform_hart_index(const struct sbi_platform *plat, u32 hartid)
 		return -1U;
 	if (plat->hart_index2id) {
 		for (i = 0; i < plat->hart_count; i++) {
-			if (plat->hart_index2id[i] == hartid)
+			sbi_printf("sbi_platform_hart_index: i=%d hart_index2id=%d\n",
+					i, plat->hart_index2id[i]);
+			if (plat->hart_index2id[i] == hartid) {
+				sbi_printf("sbi_platform_hart_index: matched=%d\n",
+					hartid);
 				return i;
+			}
 		}
 		return -1U;
 	}
